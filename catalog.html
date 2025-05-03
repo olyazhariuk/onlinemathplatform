@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Каталог курсів</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f1f5f9;
+      margin: 0;
+      padding: 0;
+      color: #1e293b;
+    }
+
+    header {
+      background-color: #1e3a8a;
+      color: white;
+      padding: 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .nav-links a {
+      color: white;
+      text-decoration: none;
+      margin: 0 1rem;
+      font-weight: 600;
+    }
+
+    .nav-links a:hover {
+      text-decoration: underline;
+    }
+
+    .lang-toggle {
+      background-color: white;
+      color: #1e3a8a;
+      border: none;
+      padding: 0.4rem 0.8rem;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 2rem;
+      color: #1e40af;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .card {
+      background-color: #ffffff;
+      border-radius: 12px;
+      padding: 1.5rem;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+      transition: transform 0.2s;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+    }
+
+    .course-title {
+      font-size: 1.2rem;
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+      color: #0f172a;
+    }
+
+    .course-desc {
+      font-size: 0.95rem;
+      color: #475569;
+      margin-bottom: 0.8rem;
+    }
+
+    .stars {
+      color: #facc15;
+      font-size: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .btn {
+      display: inline-block;
+      background-color: #2563eb;
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      text-decoration: none;
+      font-size: 0.95rem;
+    }
+
+    .btn:hover {
+      background-color: #1d4ed8;
+    }
+
+    @media (max-width: 600px) {
+      .card {
+        padding: 1rem;
+      }
+      .nav-links {
+        text-align: center;
+        margin-top: 0.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="nav-links">
+      <a href="index.html" id="home-link">Головна</a>
+    </div>
+    <button class="lang-toggle" onclick="toggleLanguage()">EN</button>
+  </header>
+
+  <div class="container">
+    <h1 id="page-title">Каталог курсів</h1>
+    <div class="grid" id="courses-grid">
+      <!-- Динамічне наповнення курсів -->
+    </div>
+  </div>
+
+  <script>
+    let isUkrainian = true;
+
+    const courseData = {
+      ua: {
+        title: "Каталог курсів",
+        home: "Головна",
+        langBtn: "EN",
+        courses: [
+          {
+            title: "Прикладна математика",
+            desc: "Основи математичного моделювання, розрахунки та задачі.",
+            stars: "★★★★★"
+          },
+          {
+            title: "Математична статистика",
+            desc: "Збір, аналіз та інтерпретація статистичних даних.",
+            stars: "★★★★☆"
+          },
+          {
+            title: "Лінійна алгебра",
+            desc: "Матриці, вектори, системи лінійних рівнянь та багато іншого.",
+            stars: "★★★★★"
+          },
+          {
+            title: "Диференціальні рівняння",
+            desc: "Основи та приклади розв’язання диференціальних рівнянь.",
+            stars: "★★★☆☆"
+          },
+          {
+            title: "Чисельні методи",
+            desc: "Методи обчислень та алгоритми для розв’язання задач.",
+            stars: "★★★★☆"
+          },
+          {
+            title: "Теорія ймовірностей",
+            desc: "Ймовірнісні моделі, події, закони розподілу.",
+            stars: "★★★★★"
+          }
+        ],
+        moreBtn: "Детальніше"
+      },
+      en: {
+        title: "Course Catalog",
+        home: "Home",
+        langBtn: "UA",
+        courses: [
+          {
+            title: "Applied Mathematics",
+            desc: "Basics of mathematical modeling, calculations and problems.",
+            stars: "★★★★★"
+          },
+          {
+            title: "Mathematical Statistics",
+            desc: "Collection, analysis and interpretation of statistical data.",
+            stars: "★★★★☆"
+          },
+          {
+            title: "Linear Algebra",
+            desc: "Matrices, vectors, linear systems and much more.",
+            stars: "★★★★★"
+          },
+          {
+            title: "Differential Equations",
+            desc: "Basics and examples of solving differential equations.",
+            stars: "★★★☆☆"
+          },
+          {
+            title: "Numerical Methods",
+            desc: "Computation methods and algorithms for solving problems.",
+            stars: "★★★★☆"
+          },
+          {
+            title: "Probability Theory",
+            desc: "Probability models, events, distribution laws.",
+            stars: "★★★★★"
+          }
+        ],
+        moreBtn: "Learn more"
+      }
+    };
+
+    function renderCourses() {
+      const lang = isUkrainian ? "ua" : "en";
+      const data = courseData[lang];
+
+      document.getElementById("page-title").innerText = data.title;
+      document.getElementById("home-link").innerText = data.home;
+      document.querySelector(".lang-toggle").innerText = data.langBtn;
+
+      const grid = document.getElementById("courses-grid");
+      grid.innerHTML = data.courses.map(course => `
+        <div class="card">
+          <div class="course-title">${course.title}</div>
+          <div class="course-desc">${course.desc}</div>
+          <div class="stars">${course.stars}</div>
+          <a href="#" class="btn">${data.moreBtn}</a>
+        </div>
+      `).join("");
+    }
+
+    function toggleLanguage() {
+      isUkrainian = !isUkrainian;
+      renderCourses();
+    }
+
+    // Ініціалізація
+    renderCourses();
+  </script>
+</body>
+</html>
+

@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Вхід / Реєстрація — MathLearn</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f0f4f8;
+      margin: 0;
+      padding-top: 70px;
+    }
+
+    header {
+      background-color: #1e3a8a;
+      color: white;
+      padding: 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .lang-toggle {
+      background-color: white;
+      color: #1e3a8a;
+      border: none;
+      padding: 0.4rem 0.8rem;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    .container {
+      background: white;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 400px;
+      margin: 0 auto;
+      margin-top: 2rem;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 1rem;
+      color: #1e3a8a;
+    }
+
+    input {
+      width: 100%;
+      padding: 0.8rem;
+      margin-bottom: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 1rem;
+    }
+
+    .btn {
+      width: 100%;
+      padding: 0.8rem;
+      background-color: #3b82f6;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+      margin-bottom: 0.5rem;
+      transition: background-color 0.3s;
+    }
+
+    .btn:hover {
+      background-color: #2563eb;
+    }
+
+    .error {
+      color: red;
+      font-size: 0.9rem;
+      margin-bottom: 0.5rem;
+    }
+
+    @media (max-width: 500px) {
+      .container {
+        margin: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <a href="index.html" class="logo" id="site-name">MathLearn</a>
+    <button class="lang-toggle" onclick="toggleLanguage()">EN</button>
+  </header>
+
+  <div class="container">
+    <h2 id="form-title">Вхід / Реєстрація</h2>
+    <div class="error" id="error-msg"></div>
+    <input type="email" id="email" placeholder="Email" />
+    <input type="password" id="password" placeholder="Пароль" />
+    <button class="btn" onclick="login()" id="login-btn">Увійти</button>
+    <button class="btn" onclick="register()" id="register-btn">Зареєструватися</button>
+  </div>
+
+  <script>
+    let isUkrainian = true;
+
+    const texts = {
+      ua: {
+        site: "MathLearn",
+        title: "Вхід / Реєстрація",
+        email: "Email",
+        password: "Пароль",
+        login: "Увійти",
+        register: "Зареєструватися",
+        langBtn: "EN",
+        errors: {
+          empty: "Будь ласка, заповніть всі поля.",
+          invalidEmail: "Введіть коректну email-адресу.",
+          shortPass: "Пароль має містити щонайменше 6 символів."
+        }
+      },
+      en: {
+        site: "MathLearn",
+        title: "Login / Register",
+        email: "Email",
+        password: "Password",
+        login: "Log In",
+        register: "Register",
+        langBtn: "UA",
+        errors: {
+          empty: "Please fill in all fields.",
+          invalidEmail: "Enter a valid email address.",
+          shortPass: "Password must be at least 6 characters long."
+        }
+      }
+    };
+
+    function toggleLanguage() {
+      isUkrainian = !isUkrainian;
+      const lang = isUkrainian ? "ua" : "en";
+      document.getElementById("site-name").innerText = texts[lang].site;
+      document.getElementById("form-title").innerText = texts[lang].title;
+      document.getElementById("email").placeholder = texts[lang].email;
+      document.getElementById("password").placeholder = texts[lang].password;
+      document.getElementById("login-btn").innerText = texts[lang].login;
+      document.getElementById("register-btn").innerText = texts[lang].register;
+      document.querySelector(".lang-toggle").innerText = texts[lang].langBtn;
+      document.getElementById("error-msg").textContent = "";
+    }
+
+    function validateForm(email, password) {
+      const errorMsg = document.getElementById("error-msg");
+      const lang = isUkrainian ? "ua" : "en";
+      errorMsg.textContent = "";
+
+      if (!email || !password) {
+        errorMsg.textContent = texts[lang].errors.empty;
+        return false;
+      }
+
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(email)) {
+        errorMsg.textContent = texts[lang].errors.invalidEmail;
+        return false;
+      }
+
+      if (password.length < 6) {
+        errorMsg.textContent = texts[lang].errors.shortPass;
+        return false;
+      }
+
+      return true;
+    }
+
+    function login() {
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value.trim();
+      if (validateForm(email, password)) {
+        alert(isUkrainian ? "Успішний вхід (демо)" : "Login successful (demo)");
+      }
+    }
+
+    function register() {
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value.trim();
+      if (validateForm(email, password)) {
+        alert(isUkrainian ? "Реєстрація успішна (демо)" : "Registration successful (demo)");
+      }
+    }
+  </script>
+</body>
+</html>

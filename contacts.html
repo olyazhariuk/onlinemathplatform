@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Контакти</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f1f5f9;
+      margin: 0;
+      padding: 0;
+      color: #1e293b;
+    }
+
+    header {
+      background-color: #1e3a8a;
+      color: white;
+      padding: 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .nav-links a {
+      color: white;
+      text-decoration: none;
+      margin: 0 1rem;
+      font-weight: 600;
+    }
+
+    .nav-links a:hover {
+      text-decoration: underline;
+    }
+
+    .lang-toggle {
+      background-color: white;
+      color: #1e3a8a;
+      border: none;
+      padding: 0.4rem 0.8rem;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 2rem auto;
+      padding: 2rem;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    }
+
+    h1 {
+      text-align: center;
+      color: #1e40af;
+      margin-bottom: 1rem;
+    }
+
+    .contact-item {
+      margin-bottom: 1.2rem;
+      font-size: 1.05rem;
+    }
+
+    @media (max-width: 600px) {
+      .container {
+        padding: 1rem;
+      }
+
+      .nav-links {
+        text-align: center;
+        margin-top: 0.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="nav-links">
+      <a href="index.html" id="home-link">Головна</a>
+    </div>
+    <button class="lang-toggle" onclick="toggleLanguage()">EN</button>
+  </header>
+
+  <div class="container">
+    <h1 id="title">Контакти</h1>
+
+    <div class="contact-item" id="created-by">
+      Сайт створила: Жарюк Ольга, ФІТ 2-2, o.zharyuk_fit_2_23_b_d@knute.edu.ua
+    </div>
+
+    <div class="contact-item">
+      📞 <span id="phone-label">Телефон</span>: <a href="tel:+380685753250">+38 (068) 575-32-50</a>
+    </div>
+
+    <div class="contact-item">
+      📧 <span id="email-label">Електронна пошта</span>: <a href="mailto:olyazhariuk@gmail.com">olyazhariuk@gmail.com</a>
+    </div>
+  </div>
+
+  <script>
+    let isUkrainian = true;
+
+    const translations = {
+      ua: {
+        title: "Контакти",
+        home: "Головна",
+        langBtn: "EN",
+        createdBy: "Сайт створила: Жарюк Ольга, ФІТ 2-2, o.zharyuk_fit_2_23_b_d@knute.edu.ua.",
+        phone: "Телефон",
+        email: "Електронна пошта"
+      },
+      en: {
+        title: "Contacts",
+        home: "Home",
+        langBtn: "UA",
+        createdBy: "Website was created by Olya Zhariuk, FIT 2-2, o.zharyuk_fit_2_23_b_d@knute.edu.ua.",
+        phone: "Phone",
+        email: "Email"
+      }
+    };
+
+    function toggleLanguage() {
+      isUkrainian = !isUkrainian;
+      const lang = isUkrainian ? "ua" : "en";
+      const t = translations[lang];
+
+      document.getElementById("title").innerText = t.title;
+      document.getElementById("home-link").innerText = t.home;
+      document.querySelector(".lang-toggle").innerText = t.langBtn;
+      document.getElementById("created-by").innerText = t.createdBy;
+      document.getElementById("phone-label").innerText = t.phone;
+      document.getElementById("email-label").innerText = t.email;
+    }
+  </script>
+</body>
+</html>
